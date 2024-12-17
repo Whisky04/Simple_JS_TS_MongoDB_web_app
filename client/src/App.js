@@ -24,14 +24,12 @@ function App() {
     });
   };
 
-  const deleteUser = (id) => {
-    Axios.delete(`http://localhost:3001/users/${id}`)
-      .then((response) => {
-        setListOfUsers(listOfUsers.filter((user) => user._id !== id));
-        console.log(response.data.message);
-      })
-      .catch((error) => console.error(error));
-  };
+  const deleteUser = (id) => { 
+    Axios.delete(`http://localhost:3001/users/${id}`) 
+    .then(response => { setListOfUsers(listOfUsers.filter(user => user._id !== id)); 
+    console.log(response.data.message); }) 
+    .catch(error => console.error(error)); 
+  }; 
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
@@ -43,7 +41,7 @@ function App() {
     <div className="App">
       {/* User Table */}
       <Container className="mt-4">
-        <h2 className="text-center mb-3">User List</h2>
+        <h2 className="text-start mb-3">User List</h2>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -74,16 +72,16 @@ function App() {
             ))}
           </tbody>
         </Table>
-      </Container>
-
-      {/* Button to open modal */}
-      <div className="text-center mt-4">
+        
+        {/* Button to open modal/Add user functionality */}
+        <div className="text-end mt-3">
         <Button variant="success" onClick={() => setShowModal(true)}>
           Add New User
         </Button>
-      </div>
+        </div>
+      </Container>
 
-      {/* Modal for Adding User */}
+      {/* Modal for adding user */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create New User</Modal.Title>
