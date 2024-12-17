@@ -27,10 +27,14 @@ app.get("/getUsers", (req, res) => {
 });
 
 app.post("/createUser", async (req, res) => {
-  const user = req.body;
-  const newUser = new UserModel(user);
-  await newUser.save();
-  res.json(user);
+  try {
+    const user = req.body;
+    const newUser = new UserModel(user);
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 app.delete("/users/:id", async (req, res) => {

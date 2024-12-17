@@ -19,10 +19,11 @@ function App() {
       username: username,
     }).then((response) => {
       alert("User is added.");
-      setListOfUsers([...listOfUsers, { name, age, username }]);
+      setListOfUsers([...listOfUsers, response.data]);
       setShowModal(false);
     });
   };
+  
 
   const deleteUser = (id) => { 
     Axios.delete(`http://localhost:3001/users/${id}`) 
