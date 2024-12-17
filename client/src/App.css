@@ -1,43 +1,77 @@
-.App {
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-body {
+html, body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif; /* Google font */
+  background: linear-gradient(to bottom, #4b4b4b, #2c2c2c); /* Grey-darkgrey gradient */
+  padding: 0;
+  height: 100%;
+  color: #fff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+  color: #fff;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* 2. Table Styling */
+table {
+  font-family: 'Roboto', sans-serif;
+  background-color: #4b4b4b;
   color: white;
+  font-size: 16px;
 }
 
-.App-link {
+table th,
+table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table th {
+  background-color: #444;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #333;
+}
+
+table tr:nth-child(odd) {
+  background-color: #444;
+}
+
+.form-control {
+  border: 2px solid #ced4da;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+.form-control:focus {
+  border-color: #61dafb;
+  box-shadow: 0 0 5px rgba(97, 218, 251, 0.75);
+  outline: none;
+}
+
+/* 4. Placeholder hint-text - Blue Color */
+::placeholder {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 5. Invalid input - Gray Background */
+.form-control:invalid {
+  background-color: #e0e0e0;
+}
+
+.btn-primary, .btn-danger, .btn-success {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
