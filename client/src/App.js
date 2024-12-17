@@ -122,7 +122,7 @@ function App() {
       setDate(user.date ? new Date(user.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]);
       setEmail(user.email);
     } else {
-      resetForm(); // Reset form fields including default date
+      resetForm();
       setCurrentUserId(null);
     }
     setShowModal(true);
@@ -141,7 +141,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* User Table */}
       <Container className="mt-4">
         <Row>
           <Col xs={12}>

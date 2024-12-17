@@ -89,6 +89,7 @@ app.delete("/products/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 app.put("/updateProduct/:id", async (req, res) => {
   try {
     const { id } = req.params;
