@@ -96,7 +96,6 @@ function App() {
       setErrors({ name: false, age: false, email: false });
     });
   };
-
   
   const deleteUser = (id) => { 
     Axios.delete(`http://localhost:3001/users/${id}`) 
@@ -109,7 +108,7 @@ function App() {
     setName("");
     setAge(0);
     setUsername("");
-    setDate(new Date().toISOString().split("T")[0]); // Set today's date
+    setDate(new Date().toISOString().split("T")[0]);
     setEmail("");
   };
 
