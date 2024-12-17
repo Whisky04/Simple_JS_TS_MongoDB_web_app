@@ -9,6 +9,11 @@ function App() {
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [username, setUsername] = useState("");
+  const [date, setDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  });
+  const [email, setEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   // User functionalities
@@ -17,6 +22,8 @@ function App() {
       name: name,
       age: age,
       username: username,
+      date: date,
+      email: email,
     }).then((response) => {
       alert("User is added.");
       setListOfUsers([...listOfUsers, response.data]);
@@ -50,6 +57,8 @@ function App() {
               <th>Name</th>
               <th>Age</th>
               <th>Username</th>
+              <th>Date of Reporting</th>
+              <th>E-mail</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -60,6 +69,8 @@ function App() {
                 <td>{user.name}</td>
                 <td>{user.age}</td>
                 <td>{user.username}</td>
+                <td>{user.date ? new Date(user.date).toISOString().split('T')[0] : ""}</td>
+                <td>{user.email}</td>
                 <td>
                   <Button
                     variant="danger"
@@ -108,6 +119,20 @@ function App() {
                 type="text"
                 placeholder="Username"
                 onChange={(event) => setUsername(event.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Control
+                type="date"
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="E-mail"
+                onChange={(event) => setEmail(event.target.value)}
               />
             </Form.Group>
           </Form>
