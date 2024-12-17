@@ -18,6 +18,14 @@ function App() {
 
   // User functionalities
   const createUser = () => {
+    if (age <= 0 || !name) {
+      let message = "";
+      if (age <= 0) message += "Age must be higher than zero!";
+      if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
+      alert(message);
+      return;
+    }
+
     Axios.post("http://localhost:3001/createUser", {
       name: name,
       age: age,
