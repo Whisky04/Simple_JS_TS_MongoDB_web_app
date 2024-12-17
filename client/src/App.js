@@ -26,6 +26,12 @@ function App() {
       return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Invalid email format! Please enter a valid email address.");
+      return;
+    }
+
     Axios.post("http://localhost:3001/createUser", {
       name: name,
       age: age,
@@ -50,7 +56,7 @@ function App() {
     setName("");
     setAge(0);
     setUsername("");
-    setDate(new Date().toISOString().split('T')[0]); // Reset to today's date
+    setDate(new Date().toISOString().split('T')[0]);
     setEmail("");
   };
 
