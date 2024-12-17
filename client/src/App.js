@@ -31,13 +31,31 @@ function App() {
     });
   };
   
-
   const deleteUser = (id) => { 
     Axios.delete(`http://localhost:3001/users/${id}`) 
     .then(response => { setListOfUsers(listOfUsers.filter(user => user._id !== id)); 
     console.log(response.data.message); }) 
     .catch(error => console.error(error)); 
   }; 
+
+  const resetForm = () => {
+    setName("");
+    setAge(0);
+    setUsername("");
+    setDate(new Date().toISOString().split('T')[0]); // Reset to today's date
+    setEmail("");
+  };
+
+  const handleShowModal = () => {
+    resetForm();
+    setShowModal(true);
+  };
+
+  // Hide modal
+  const handleCloseModal = () => {
+    resetForm();
+    setShowModal(false);
+  };
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
@@ -87,14 +105,14 @@ function App() {
         
         {/* Button to open modal/Add user functionality */}
         <div className="text-end mt-3">
-        <Button variant="success" onClick={() => setShowModal(true)}>
-          Add New User
-        </Button>
+          <Button variant="success" onClick={handleShowModal}>
+            Add New User
+          </Button>
         </div>
       </Container>
 
       {/* Modal for adding user */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Create New User</Modal.Title>
         </Modal.Header>
@@ -104,6 +122,7 @@ function App() {
               <Form.Control
                 type="text"
                 placeholder="Name"
+                value={name}
                 onChange={(event) => setName(event.target.value)}
               />
             </Form.Group>
@@ -111,6 +130,7 @@ function App() {
               <Form.Control
                 type="number"
                 placeholder="Age"
+                value={age}
                 onChange={(event) => setAge(event.target.value)}
               />
             </Form.Group>
@@ -118,6 +138,7 @@ function App() {
               <Form.Control
                 type="text"
                 placeholder="Username"
+                value={username}
                 onChange={(event) => setUsername(event.target.value)}
               />
             </Form.Group>
@@ -132,13 +153,14 @@ function App() {
               <Form.Control
                 type="text"
                 placeholder="E-mail"
+                value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
           <Button variant="primary" onClick={createUser}>
