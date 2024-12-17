@@ -28,11 +28,13 @@ app.get("/getUsers", (req, res) => {
 
 app.post("/createUser", async (req, res) => {
   try {
+    console.log("Incoming User Data:", req.body);
     const user = req.body;
     const newUser = new UserModel(user);
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (err) {
+    console.error("Error saving user:", err.message);
     res.status(500).json({ message: err.message });
   }
 });

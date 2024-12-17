@@ -15,14 +15,15 @@ function App() {
   });
   const [email, setEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   // User functionalities
   const createUser = () => {
     //Form filling check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (age <= 0 || !name) {
+    if (((age <= 0) || (!age)) || !name) {
       let message = "";
-      if (age <= 0) message += "Age must be higher than zero!";
+      if ((age <= 0) || (!age)) message += "Age must be higher than zero!";
       if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
       if ((!emailRegex.test(email)) && email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
       alert(message);
@@ -42,6 +43,41 @@ function App() {
     });
   };
   
+  const updateUser = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (age <= 0 || !name) {
+      let message = "";
+      if (age <= 0) message += "Age must be higher than zero!";
+      if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
+      if ((!emailRegex.test(email)) && email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
+      alert(message);
+      return;
+    }
+  
+    Axios.put(`http://localhost:3001/updateUser/${currentUserId}`, {
+      name,
+      age,
+      username,
+      date,
+      email,
+    })
+      .then((response) => {
+        alert("User updated successfully.");
+        setListOfUsers(
+          listOfUsers.map((user) =>
+            user._id === currentUserId ? response.data : user
+          )
+        );
+        setShowModal(false);
+        resetForm();
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        alert("Failed to update user.");
+      });
+  };
+
+  
   const deleteUser = (id) => { 
     Axios.delete(`http://localhost:3001/users/${id}`) 
     .then(response => { setListOfUsers(listOfUsers.filter(user => user._id !== id)); 
@@ -53,16 +89,25 @@ function App() {
     setName("");
     setAge(0);
     setUsername("");
-    setDate(new Date().toISOString().split('T')[0]);
+    setDate(new Date().toISOString().split("T")[0]); // Set today's date
     setEmail("");
   };
 
-  const handleShowModal = () => {
-    resetForm();
+  const handleShowModal = (user = null) => {
+    if (user) {
+      setCurrentUserId(user._id);
+      setName(user.name);
+      setAge(user.age);
+      setUsername(user.username);
+      setDate(user.date ? new Date(user.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]);
+      setEmail(user.email);
+    } else {
+      resetForm(); // Reset form fields including default date
+      setCurrentUserId(null);
+    }
     setShowModal(true);
   };
-
-  // Hide modal
+  
   const handleCloseModal = () => {
     resetForm();
     setShowModal(false);
@@ -133,7 +178,7 @@ function App() {
       {/* Modal for adding user */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Create New User</Modal.Title>
+          <Modal.Title>{currentUserId ? "Update User" : "Create New User"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -182,8 +227,8 @@ function App() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={createUser}>
-            Save User
+          <Button variant="primary" onClick={currentUserId ? updateUser : createUser}>
+            {currentUserId ? "Update User" : "Save User"}
           </Button>
         </Modal.Footer>
       </Modal>
