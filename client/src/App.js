@@ -16,16 +16,29 @@ function App() {
   const [email, setEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [errors, setErrors] = useState({
+    name: false,
+    age: false,
+    email: false,
+  });
 
   // User functionalities
   const createUser = () => {
-    //Form filling check
+    //Form filling check with field highlighting
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (((age <= 0) || (!age)) || !name) {
+    let validationErrors = {
+      name: !name,
+      age: age <= 0 || !age,
+      email: email && !emailRegex.test(email),
+    };
+
+    setErrors(validationErrors);
+
+    if (validationErrors.name || validationErrors.age || validationErrors.email) {
       let message = "";
-      if ((age <= 0) || (!age)) message += "Age must be higher than zero!";
-      if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
-      if ((!emailRegex.test(email)) && email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
+      if (validationErrors.age) message += "Age must be higher than zero!";
+      if (validationErrors.name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
+      if (validationErrors.email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
       alert(message);
       return;
     }
@@ -40,16 +53,26 @@ function App() {
       alert("User is added.");
       setListOfUsers([...listOfUsers, response.data]);
       setShowModal(false);
+      resetForm();
+      setErrors({ name: false, age: false, email: false });
     });
   };
   
   const updateUser = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (age <= 0 || !name) {
+    let validationErrors = {
+      name: !name,
+      age: age <= 0 || !age,
+      email: email && !emailRegex.test(email),
+    };
+  
+    setErrors(validationErrors);
+  
+    if (validationErrors.name || validationErrors.age || validationErrors.email) {
       let message = "";
-      if (age <= 0) message += "Age must be higher than zero!";
-      if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
-      if ((!emailRegex.test(email)) && email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
+      if (validationErrors.age) message += "Age must be higher than zero!";
+      if (validationErrors.name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
+      if (validationErrors.email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
       alert(message);
       return;
     }
@@ -60,21 +83,17 @@ function App() {
       username,
       date,
       email,
-    })
-      .then((response) => {
-        alert("User updated successfully.");
-        setListOfUsers(
-          listOfUsers.map((user) =>
-            user._id === currentUserId ? response.data : user
-          )
-        );
-        setShowModal(false);
-        resetForm();
-      })
-      .catch((error) => {
-        console.error("Error updating user:", error);
-        alert("Failed to update user.");
-      });
+    }).then((response) => {
+      alert("User updated successfully.");
+      setListOfUsers(
+        listOfUsers.map((user) =>
+          user._id === currentUserId ? response.data : user
+        )
+      );
+      setShowModal(false);
+      resetForm();
+      setErrors({ name: false, age: false, email: false });
+    });
   };
 
   
@@ -187,7 +206,11 @@ function App() {
                 type="text"
                 placeholder="Name"
                 value={name}
-                onChange={(event) => setName(event.target.value)}
+                isInvalid={errors.name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  if (errors.name) setErrors({ ...errors, name: false });
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -195,7 +218,11 @@ function App() {
                 type="number"
                 placeholder="Age"
                 value={age}
-                onChange={(event) => setAge(event.target.value)}
+                isInvalid={errors.age}
+                onChange={(event) => {
+                  setAge(event.target.value);
+                  if (errors.age) setErrors({ ...errors, age: false });
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -218,7 +245,11 @@ function App() {
                 type="text"
                 placeholder="E-mail"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                isInvalid={errors.email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  if (errors.email) setErrors({ ...errors, email: false });
+                }}
               />
             </Form.Group>
           </Form>
