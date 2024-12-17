@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import './App.css';
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Button, Form, Modal, Table } from "react-bootstrap";
+import { Container, Button, Form, Modal, Table, Row, Col } from "react-bootstrap";
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
@@ -21,6 +21,7 @@ function App() {
     age: false,
     email: false,
   });
+  const [currentView, setCurrentView] = useState("users");
 
   // User functionalities
   const createUser = () => {
@@ -142,7 +143,28 @@ function App() {
     <div className="App">
       {/* User Table */}
       <Container className="mt-4">
-        <h2 className="text-start mb-3">User List</h2>
+        <Row>
+          <Col xs={12}>
+            <div className="d-flex gap-4">
+              <h2
+                className={`mb-3 clickable-title ${
+                  currentView === "users" ? "active-title" : ""
+                }`}
+                onClick={() => setCurrentView("users")}
+              >
+                User List
+              </h2>
+              <h2
+                className={`mb-3 clickable-title ${
+                  currentView === "products" ? "active-title" : ""
+                }`}
+                onClick={() => setCurrentView("products")}
+              >
+                Product List
+              </h2>
+            </div>
+          </Col>
+        </Row>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
