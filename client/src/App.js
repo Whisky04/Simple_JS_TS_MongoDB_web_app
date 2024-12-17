@@ -18,17 +18,14 @@ function App() {
 
   // User functionalities
   const createUser = () => {
+    //Form filling check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (age <= 0 || !name) {
       let message = "";
       if (age <= 0) message += "Age must be higher than zero!";
       if (!name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
+      if ((!emailRegex.test(email)) && email) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
       alert(message);
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Invalid email format! Please enter a valid email address.");
       return;
     }
 
@@ -104,6 +101,14 @@ function App() {
                 <td>{user.date ? new Date(user.date).toISOString().split('T')[0] : ""}</td>
                 <td>{user.email}</td>
                 <td>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => handleShowModal(user)}
+                    className="me-2"
+                  >
+                    Update
+                  </Button>
                   <Button
                     variant="danger"
                     size="sm"
