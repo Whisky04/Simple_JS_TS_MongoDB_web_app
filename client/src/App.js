@@ -9,7 +9,7 @@ function User({ showModal, setShowModal }) {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
-  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [date, setDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split('T')[0];
@@ -44,7 +44,7 @@ function User({ showModal, setShowModal }) {
     Axios.post("http://localhost:3001/createUser", {
       name: name,
       age: age,
-      username: username,
+      nickname: nickname,
       date: date,
       email: email,
     }).then((response) => {
@@ -78,7 +78,7 @@ function User({ showModal, setShowModal }) {
     Axios.put(`http://localhost:3001/updateUser/${currentUserId}`, {
       name,
       age,
-      username,
+      nickname,
       date,
       email,
     }).then((response) => {
@@ -106,7 +106,7 @@ function User({ showModal, setShowModal }) {
   const resetForm = () => {
     setName("");
     setAge(0);
-    setUsername("");
+    setNickname("");
     setDate(new Date().toISOString().split("T")[0]);
     setEmail("");
   };
@@ -116,7 +116,7 @@ function User({ showModal, setShowModal }) {
       setCurrentUserId(user._id);
       setName(user.name);
       setAge(user.age);
-      setUsername(user.username);
+      setNickname(user.nickname);
       setDate(user.date ? new Date(user.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]);
       setEmail(user.email);
     } else {
@@ -140,7 +140,7 @@ function User({ showModal, setShowModal }) {
             <th>#</th>
             <th>Name</th>
             <th>Age</th>
-            <th>Username</th>
+            <th>Nickname</th>
             <th>Date of Reporting</th>
             <th>E-mail</th>
             <th>Actions</th>
@@ -152,7 +152,7 @@ function User({ showModal, setShowModal }) {
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.age}</td>
-              <td>{user.username}</td>
+              <td>{user.nickname}</td>
               <td>{user.date ? new Date(user.date).toISOString().split('T')[0] : ""}</td>
               <td>{user.email}</td>
               <td>
@@ -180,14 +180,17 @@ function User({ showModal, setShowModal }) {
       {/* Modal for adding/updating user */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>{currentUserId ? "Update User" : "Create New User"}</Modal.Title>
+          <Modal.Title>
+            {currentUserId ? "Update User" : "Create New User"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              <Form.Label> User Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Name"
+                placeholder="Enter Name"
                 value={name}
                 isInvalid={errors.name}
                 onChange={(event) => {
@@ -197,9 +200,10 @@ function User({ showModal, setShowModal }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label>User Age</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Age"
+                placeholder="Enter Age"
                 value={age}
                 isInvalid={errors.age}
                 onChange={(event) => {
@@ -209,14 +213,16 @@ function User({ showModal, setShowModal }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label> Nickname </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                placeholder="Enter Nickname"
+                value={nickname}
+                onChange={(event) => setNickname(event.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label> Date of Report</Form.Label>
               <Form.Control
                 type="date"
                 value={date}
@@ -224,9 +230,10 @@ function User({ showModal, setShowModal }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label>User E-mail</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="E-mail"
+                placeholder="Enter valid E-mail"
                 value={email}
                 isInvalid={errors.email}
                 onChange={(event) => {
