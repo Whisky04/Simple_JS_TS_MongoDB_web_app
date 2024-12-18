@@ -109,6 +109,8 @@ function User({ showModal, setShowModal }) {
     setNickname("");
     setDate(new Date().toISOString().split("T")[0]);
     setEmail("");
+    setCurrentUserId(null);
+    setErrors({ name: false, age: false, email: false });
   };
 
   const handleShowModal = (user = null) => {
@@ -348,6 +350,8 @@ function Product({ showModal, setShowModal }) {
     setName("");
     setPrice(0);
     setCategory("");
+    setCurrentProductId(null);
+    setErrors({ name: false, price: false, category: false });
   };
 
   const handleShowModal = (product = null) => {
