@@ -474,7 +474,9 @@ function App() {
                     }`}
                     onClick={() => setCurrentView("users")}
                   >
-                    <Link to="/">Users List</Link>
+                    <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                      Users List
+                    </Link>
                   </h2>
                   <h2
                     className={`mb-0 clickable-title ${
@@ -482,10 +484,11 @@ function App() {
                     }`}
                     onClick={() => setCurrentView("products")}
                   >
-                    <Link to="/product">Products List</Link>
+                    <Link to="/product" style={{ textDecoration: "none", color: "inherit" }}>
+                      Products List
+                    </Link>
                   </h2>
                 </div>
-
                 {/* Alternativable "Add New" buttons */}
                 <div>
                   {currentView === "users" ? (
