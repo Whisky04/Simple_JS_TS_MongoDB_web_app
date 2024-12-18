@@ -54,14 +54,14 @@ table tr:nth-child(odd) {
 }
 
 /* 4. Placeholder hint-text - Blue Color */
-::placeholder {
-  color: #61dafb;
+.form-control::placeholder {
+  color: #002794 !important;
 }
 
 /* 5. Invalid input - Gray Background */
 .form-control.is-invalid {
   background-color: #e0e0e0 !important; /* Gray background */
-  border-color: #dc3545; /* Bootstrap default red border */
+  border-color: #dc3545;
 }
 
 .btn-primary, .btn-danger, .btn-success {
