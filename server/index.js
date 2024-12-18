@@ -70,15 +70,25 @@ app.put("/updateUser/:id", async (req, res) => {
 //Products functionalities
 app.get("/getProducts", (req, res) => {
   ProductModel.find()
-    .then((response) => res.json(response))
-    .catch((err) => res.json(err));
+    .then(function (response) {
+      res.json(response);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
 });
 
 app.post("/createProduct", async (req, res) => {
-  const product = req.body;
-  const newProduct = new ProductModel(product);
-  await newProduct.save();
-  res.json(product);
+  try {
+    console.log("Incoming Product Data:", req.body);
+    const product = req.body;
+    const newProduct = new ProductModel(product);
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (err) {
+    console.error("Error saving product:", err.message);
+    res.status(500).json({ message: err.message });
+  }
 });
 
 app.delete("/products/:id", async (req, res) => {
