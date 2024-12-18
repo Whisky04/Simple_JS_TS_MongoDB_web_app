@@ -479,6 +479,11 @@ function App() {
   const [currentView, setCurrentView] = useState("users");
   const [showModal, setShowModal] = useState(false);
 
+  const handleAddNewClick = (view) => {
+    setCurrentView(view);
+    setShowModal(true);
+  };
+
   return (
     <Router>
       <div className="App">
@@ -514,14 +519,14 @@ function App() {
                   {currentView === "users" ? (
                     <Button
                       variant="success"
-                      onClick={() => setShowModal(true)}
+                      onClick={() => handleAddNewClick("users")}
                     >
                       Add New User
                     </Button>
                   ) : (
                     <Button
                       variant="success"
-                      onClick={() => setShowModal(true)}
+                      onClick={() => handleAddNewClick("products")}
                     >
                       Add New Product
                     </Button>
@@ -535,11 +540,21 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<User showModal={showModal} setShowModal={setShowModal} />}
+              element={
+                <User
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                />
+              }
             />
             <Route
               path="/product"
-              element={<Product showModal={showModal} setShowModal={setShowModal} />}
+              element={
+                <Product
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                />
+              }
             />
           </Routes>
         </Container>
@@ -547,6 +562,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;
