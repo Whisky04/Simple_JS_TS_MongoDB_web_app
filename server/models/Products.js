@@ -9,10 +9,12 @@ const ProductSchema = new mongoose.Schema({
         type: Number, 
         required: true,
     },
-    category: { 
-        type: String, 
+    category: {
+        type: String,
         required: true,
-    },
+        enum: ["Furniture", "Tool", "Material", "Undefined", "Extra"],
+        default: "Undefined",
+      },
 });
 
 const ProductModel = mongoose.model("products", ProductSchema);

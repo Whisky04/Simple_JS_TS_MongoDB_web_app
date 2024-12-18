@@ -263,7 +263,7 @@ function Product({ showModal, setShowModal }) {
   const [listOfProducts, setListOfProducts] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Undefined");
   const [currentProductId, setCurrentProductId] = useState(null);
   const [errors, setErrors] = useState({
     name: false,
@@ -271,11 +271,13 @@ function Product({ showModal, setShowModal }) {
     category: false,
   });
 
+  const categories = ["Furniture", "Tool", "Material", "Undefined", "Extra"];
+
   const createProduct = () => {
     let validationErrors = {
       name: !name,
       price: price <= 0 || !price,
-      category: !category,
+      category: !category || !categories.includes(category),
     };
 
     setErrors(validationErrors);
@@ -349,7 +351,7 @@ function Product({ showModal, setShowModal }) {
   const resetForm = () => {
     setName("");
     setPrice(0);
-    setCategory("");
+    setCategory("Undefined");
     setCurrentProductId(null);
     setErrors({ name: false, price: false, category: false });
   };
@@ -446,16 +448,17 @@ function Product({ showModal, setShowModal }) {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter category"
+              <Form.Select
                 value={category}
                 isInvalid={errors.category}
-                onChange={(event) => {
-                  setCategory(event.target.value);
-                  if (errors.category) setErrors({ ...errors, category: false });
-                }}
-              />
+                onChange={(event) => setCategory(event.target.value)}
+              >
+                {categories.map((cat, index) => (
+                  <option key={index} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
