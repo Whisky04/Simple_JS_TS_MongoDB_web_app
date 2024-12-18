@@ -255,12 +255,11 @@ function User({ showModal, setShowModal }) {
   );
 }
 
-function Product() {
+function Product({ showModal, setShowModal }) {
   const [listOfProducts, setListOfProducts] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
   const [errors, setErrors] = useState({
     name: false,
@@ -375,12 +374,6 @@ function Product() {
 
   return (
     <Container className="mt-5">
-      {/* Header and Add Product Button */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <Button variant="success" onClick={() => handleShowModal()}>
-          Add New Product
-        </Button>
-      </div>
 
       {/* 3-Column Layout for Products */}
       <Row>
@@ -415,8 +408,8 @@ function Product() {
         ))}
       </Row>
 
-      {/* Modal for Add/Update Product */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      {/* Modal for adding/updating product */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
             {currentProductId ? "Update Product" : "Create New Product"}
@@ -457,7 +450,7 @@ function Product() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
           <Button
