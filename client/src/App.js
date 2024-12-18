@@ -21,6 +21,7 @@ function User({ showModal, setShowModal }) {
     age: false,
     email: false,
   });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "none" });
 
   const createUser = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -134,23 +135,65 @@ function User({ showModal, setShowModal }) {
     });
   }, []);
 
+  const sortedUsers = [...listOfUsers].sort((a, b) => {
+    if (sortConfig.direction === "none" || !sortConfig.key) return 0;
+
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
+
+    if (typeof valueA === "string") {
+      return sortConfig.direction === "asc"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    } else {
+      return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+    }
+  });
+
+  const requestSort = (key) => {
+    let direction = "asc";
+
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") direction = "desc";
+      else if (sortConfig.direction === "desc") direction = "none";
+    }
+
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIndicator = (key) => {
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") return "↑";
+      if (sortConfig.direction === "desc") return "↓";
+    }
+    return "";
+  };
+
   return (
     <Container>
       <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Nickname</th>
-            <th>Date of Reporting</th>
-            <th>E-mail</th>
+            <th onClick={() => requestSort("name")} style={{ cursor: "pointer" }}>Name {getSortIndicator("name")} </th>
+            <th onClick={() => requestSort("age")} style={{ cursor: "pointer" }}>
+              Age {getSortIndicator("age")}
+            </th>
+            <th onClick={() => requestSort("nickname")} style={{ cursor: "pointer" }}>
+              Nickname {getSortIndicator("nickname")}
+            </th>
+            <th onClick={() => requestSort("date")} style={{ cursor: "pointer" }}>
+              Date of Reporting {getSortIndicator("date")}
+            </th>
+            <th onClick={() => requestSort("email")} style={{ cursor: "pointer" }}>
+              E-mail {getSortIndicator("email")}
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {listOfUsers.map((user, index) => (
-            <tr key={index}>
+          {sortedUsers.map((user, index) => (
+            <tr key={user._id}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.age}</td>
@@ -158,19 +201,10 @@ function User({ showModal, setShowModal }) {
               <td>{user.date ? new Date(user.date).toISOString().split('T')[0] : ""}</td>
               <td>{user.email}</td>
               <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => handleShowModal(user)}
-                  className="me-2"
-                >
+                <Button variant="warning" size="sm" onClick={() => handleShowModal(user)} className="me-2">
                   Update
                 </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => deleteUser(user._id)}
-                >
+                <Button variant="danger" size="sm" onClick={() => deleteUser(user._id)}>
                   Delete
                 </Button>
               </td>
