@@ -287,9 +287,9 @@ function Product() {
 
     if (validationErrors.name || validationErrors.price || validationErrors.category) {
       let message = "";
-      if (validationErrors.price) message += "Age must be higher than zero!";
+      if (validationErrors.price) message += "Price must be higher than zero!";
       if (validationErrors.name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
-      if (validationErrors.category) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
+      if (validationErrors.category) message += (message ? "\n\n" : "") + "Please, fill in 'Category' field!";
       alert(message);
       return;
     }
@@ -318,9 +318,9 @@ function Product() {
 
     if (validationErrors.name || validationErrors.price || validationErrors.category) {
       let message = "";
-      if (validationErrors.price) message += "Age must be higher than zero!";
+      if (validationErrors.price) message += "Price must be higher than zero!";
       if (validationErrors.name) message += (message ? "\n\n" : "") + "Please, fill in 'Name' field!";
-      if (validationErrors.category) message += (message ? "\n\n" : "") + "Invalid email format! Please enter a valid email address.";
+      if (validationErrors.category) message += (message ? "\n\n" : "") + "Please, fill in 'Category' field!";
       alert(message);
       return;
     }
