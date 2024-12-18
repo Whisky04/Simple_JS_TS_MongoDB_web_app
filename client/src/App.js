@@ -3,9 +3,9 @@ import './App.css';
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button, Form, Modal, Table, Row, Col, Card } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; // Added Link here
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-function User() {
+function User({ showModal, setShowModal }) {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
@@ -15,7 +15,6 @@ function User() {
     return today.toISOString().split('T')[0];
   });
   const [email, setEmail] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [errors, setErrors] = useState({
     name: false,
@@ -183,15 +182,8 @@ function User() {
         </tbody>
       </Table>
 
-      {/* Button to open modal/Add user functionality */}
-      <div className="text-end mt-3">
-        <Button variant="success" onClick={handleShowModal}>
-          Add New User
-        </Button>
-      </div>
-
       {/* Modal for adding/updating user */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{currentUserId ? "Update User" : "Create New User"}</Modal.Title>
         </Modal.Header>
@@ -251,7 +243,7 @@ function User() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
           <Button variant="primary" onClick={currentUserId ? updateUser : createUser}>
@@ -482,6 +474,7 @@ function Product() {
 
 function App() {
   const [currentView, setCurrentView] = useState("users");
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Router>
@@ -489,35 +482,65 @@ function App() {
         <Container className="mt-4">
           <Row>
             <Col xs={12}>
-              <div className="d-flex gap-4">
-                <h2
-                  className={`mb-3 clickable-title ${
-                    currentView === "users" ? "active-title" : ""
-                  }`}
-                  onClick={() => setCurrentView("users")}
-                >
-                  <Link to="/">Users List</Link>
-                </h2>
-                <h2
-                  className={`mb-3 clickable-title ${
-                    currentView === "products" ? "active-title" : ""
-                  }`}
-                  onClick={() => setCurrentView("products")}
-                >
-                  <Link to="/product">Products List</Link>
-                </h2>
+              {/* Header Row */}
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex gap-4">
+                  <h2
+                    className={`mb-0 clickable-title ${
+                      currentView === "users" ? "active-title" : ""
+                    }`}
+                    onClick={() => setCurrentView("users")}
+                  >
+                    <Link to="/">Users List</Link>
+                  </h2>
+                  <h2
+                    className={`mb-0 clickable-title ${
+                      currentView === "products" ? "active-title" : ""
+                    }`}
+                    onClick={() => setCurrentView("products")}
+                  >
+                    <Link to="/product">Products List</Link>
+                  </h2>
+                </div>
+
+                {/* Alternativable "Add New" buttons */}
+                <div>
+                  {currentView === "users" ? (
+                    <Button
+                      variant="success"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Add New User
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="success"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Add New Product
+                    </Button>
+                  )}
+                </div>
               </div>
             </Col>
           </Row>
+
+          {/* Routes */}
           <Routes>
-            <Route path="/" element={<User />} />
-            {/* <Route path="/user" element={<User />} /> */}
-            <Route path="/product" element={<Product />} />
+            <Route
+              path="/"
+              element={<User showModal={showModal} setShowModal={setShowModal} />}
+            />
+            <Route
+              path="/product"
+              element={<Product showModal={showModal} setShowModal={setShowModal} />}
+            />
           </Routes>
         </Container>
       </div>
     </Router>
   );
 }
+
 
 export default App;
