@@ -133,7 +133,26 @@ function User({ showModal, setShowModal }) {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
       setListOfUsers(response.data);
     });
-  }, []);
+  }, []); 
+
+  const requestSort = (key) => {
+    let direction = "asc";
+
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") direction = "desc";
+      else if (sortConfig.direction === "desc") direction = "none";
+    }
+
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIndicator = (key) => {
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") return "↑";
+      if (sortConfig.direction === "desc") return "↓";
+    }
+    return "";
+  };
 
   const sortedUsers = [...listOfUsers].sort((a, b) => {
     if (sortConfig.direction === "none" || !sortConfig.key) return 0;
@@ -157,26 +176,7 @@ function User({ showModal, setShowModal }) {
     }
   
     return 0;
-  });  
-
-  const requestSort = (key) => {
-    let direction = "asc";
-
-    if (sortConfig.key === key) {
-      if (sortConfig.direction === "asc") direction = "desc";
-      else if (sortConfig.direction === "desc") direction = "none";
-    }
-
-    setSortConfig({ key, direction });
-  };
-
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      if (sortConfig.direction === "asc") return "↑";
-      if (sortConfig.direction === "desc") return "↓";
-    }
-    return "";
-  };
+  }); 
 
   return (
     <Container>
