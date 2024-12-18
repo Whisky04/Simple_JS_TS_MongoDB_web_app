@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import './App.css';
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Button, Form, Modal, Table, Row, Col } from "react-bootstrap";
+import { Container, Button, Form, Modal, Table, Row, Col, Card } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; // Added Link here
 
 function User() {
@@ -382,94 +382,84 @@ function Product() {
   }, []);
 
   return (
-    <Container>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listOfProducts.map((product, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.category}</td>
-              <td>
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={() => handleShowModal(product)}
-                  className="me-2"
-                >
-                  Update
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => deleteProduct(product._id)}
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      {/* Button to open modal/Add product functionality */}
-      <div className="text-end mt-3">
-        <Button variant="success" onClick={handleShowModal}>
+    <Container className="mt-5">
+      {/* Header and Add Product Button */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <Button variant="success" onClick={() => handleShowModal()}>
           Add New Product
         </Button>
       </div>
 
-      {/* Modal for adding/updating products */}
+      {/* 3-Column Layout for Products */}
+      <Row>
+        {listOfProducts.map((product, index) => (
+          <Col key={index} md={4} className="mb-4">
+            <Card className="h-100 shadow-sm">
+              <Card.Body>
+                <Card.Title>{product.name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  Price: €{product.price}
+                </Card.Subtitle>
+                <Card.Text>Category: {product.category}</Card.Text>
+                <div className="d-flex justify-content-between">
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => handleShowModal(product)}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => deleteProduct(product._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Modal for Add/Update Product */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{currentProductId ? "Update Product" : "Create New Product"}</Modal.Title>
+          <Modal.Title>
+            {currentProductId ? "Update Product" : "Create New Product"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              <Form.Label>Product Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Name"
+                placeholder="Enter name"
                 value={name}
                 isInvalid={errors.name}
-                onChange={(event) => {
-                  setName(event.target.value);
-                  if (errors.name) setErrors({ ...errors, name: false });
-                }}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label>Price (€)</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Price"
+                placeholder="Enter price"
                 value={price}
                 isInvalid={errors.price}
-                onChange={(event) => {
-                  setPrice(event.target.value);
-                  if (errors.price) setErrors({ ...errors, price: false });
-                }}
+                onChange={(e) => setPrice(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label>Category</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Category"
+                placeholder="Enter category"
                 value={category}
                 isInvalid={errors.category}
-                onChange={(event) => {
-                  setCategory(event.target.value);
-                  if (errors.category) setErrors({ ...errors, category: false });
-                }}
+                onChange={(e) => setCategory(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -478,7 +468,10 @@ function Product() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={currentProductId ? updateProduct : createProduct}>
+          <Button
+            variant="primary"
+            onClick={currentProductId ? updateProduct : createProduct}
+          >
             {currentProductId ? "Update Product" : "Save Product"}
           </Button>
         </Modal.Footer>
