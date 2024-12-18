@@ -137,18 +137,27 @@ function User({ showModal, setShowModal }) {
 
   const sortedUsers = [...listOfUsers].sort((a, b) => {
     if (sortConfig.direction === "none" || !sortConfig.key) return 0;
-
-    const valueA = a[sortConfig.key];
-    const valueB = b[sortConfig.key];
-
+  
+    const valueA = a[sortConfig.key] || null;
+    const valueB = b[sortConfig.key] || null;
+  
+    if (valueA === null && valueB === null) return 0;
+  
+    if (valueA === null) return 1;
+    if (valueB === null) return -1;
+  
     if (typeof valueA === "string") {
       return sortConfig.direction === "asc"
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
-    } else {
+    }
+  
+    if (typeof valueA === "number") {
       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
     }
-  });
+  
+    return 0;
+  });  
 
   const requestSort = (key) => {
     let direction = "asc";
