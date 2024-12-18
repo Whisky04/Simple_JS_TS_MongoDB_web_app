@@ -126,11 +126,6 @@ function User({ showModal, setShowModal }) {
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    resetForm();
-    setShowModal(false);
-  };
-
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
       setListOfUsers(response.data);
@@ -359,11 +354,6 @@ function Product({ showModal, setShowModal }) {
       setCurrentProductId(null);
     }
     setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    resetForm();
-    setShowModal(false);
   };
 
   useEffect(() => {
