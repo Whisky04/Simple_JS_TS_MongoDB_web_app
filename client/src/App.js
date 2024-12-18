@@ -421,7 +421,10 @@ function Product({ showModal, setShowModal }) {
                 placeholder="Enter name"
                 value={name}
                 isInvalid={errors.name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  if (errors.name) setErrors({ ...errors, name: false });
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -431,7 +434,10 @@ function Product({ showModal, setShowModal }) {
                 placeholder="Enter price"
                 value={price}
                 isInvalid={errors.price}
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(event) => {
+                  setPrice(event.target.value);
+                  if (errors.price) setErrors({ ...errors, price: false });
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -441,7 +447,10 @@ function Product({ showModal, setShowModal }) {
                 placeholder="Enter category"
                 value={category}
                 isInvalid={errors.category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(event) => {
+                  setCategory(event.target.value);
+                  if (errors.category) setErrors({ ...errors, category: false });
+                }}
               />
             </Form.Group>
           </Form>
