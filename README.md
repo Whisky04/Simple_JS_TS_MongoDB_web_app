@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+## Requirements
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Node.js version 20.11
+2. MongoDB Atlas account
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To get the project on a PC, follow the steps:
+1. **Choose a desired directory.**
+In a console, change directory to a desired one, where you want the project to be installed.
 
-### `npm start`
+2. **Clone the Repository.**
+Create a SSH-key, if not created yet. Write the following command to install and get a connection to a remote repository:
+```bash
+git clone git@github.com:Whisky04/Simple_JS_TS_MongoDB_web_app.git
+```
+After cloning, the project will be installed in the desired directory on your PC.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. **Install `npm` dependencies**
+To install all listed dependencies in `package.json` run the following command in both 'client' and 'server' directories (See "Structure of the Project"):
+```bash
+npm install
+```
+After execution of the command, the project is good to go.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Starting the Web application.
 
-### `npm test`
+To access the web application in browser run the following command in both 'client' and 'server' directories (See "Structure of the Project"):
+```bash
+npm start
+```
+After executing the command the "frontend" and "backend" will take some time to complite loading and after a succesful run the web application will be accessable localy by the following link: "http://localhost:3000"
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Structure of the Project
 
-### `npm run build`
+There are described what are the packages in the project's repository.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **client** - Frontend. Contains containers for frontend initialization.
+- **server** - Backend. Contains models of entities and database handlers.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Branching Strategy
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This section describes how to create a proper naming for a new branch.
 
-### `npm run eject`
+**Structure of the naming.**
+Name the branch in the following way: 
+```bash
+<prefix>/<issue-id>-<short-description>
+```
+Where:
+- `<prefix>` is one of:
+  - `feature` for new features;
+  - `bugfix` for bug fixes;
+  - `refactor` for code refactoring/customization.
+- `<issue-id>` is the ID of the related issue in your issue tracking system.
+- `<short-description>` is a brief and hyphenated description of the change.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Examples:
+- `feature/123-add-user-authentication`
+- `bugfix/456-fix-login-error`
+- `refactor/789-optimize-main-menu-code`
